@@ -1,0 +1,17 @@
+Client ID: 0001
+    Name: Connor McGregor
+    Location: Ocala, FL
+    Age: 35
+    Payment Due: 0
+
+Client ID: 0002
+    Name: Josephinne O'Connor
+    Location: Atlanta, GA
+    Age: 22
+    Payment Due: 562
+
+Client ID: 0003
+    Name: Mathew Smith
+    Location: Seatle, WA
+    Age: 57
+    Payment Due: 16

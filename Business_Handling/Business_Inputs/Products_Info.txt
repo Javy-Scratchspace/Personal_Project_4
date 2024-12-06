@@ -1,0 +1,14 @@
+Product ID: 0001
+    Name: Computer
+    Price: 750
+    Amount Available: 9
+
+Product ID: 0002
+    Name: Mouse
+    Price: 10
+    Amount Available: 10
+
+Product ID: 0003
+    Name: Keyboard
+    Price: 20
+    Amount Available: 3
