@@ -10,7 +10,7 @@ typedef struct Client{
     char location[1000];
     int age;
     int payment;
-    Client *next; 
+    struct Client *next;
 
 }Client;
 
@@ -19,7 +19,7 @@ typedef struct Product{
     int id;
     char name[100];
     int price;
-    Product *next;
+    struct Product *next; 
 
 }Product;
 
@@ -33,24 +33,27 @@ typedef struct Business{
 }Business;
 
 // First the business protoypes
-void businessPrint(Business *business);
+void businessPrint(Business *business, FILE *file);
 void businessEdit(Business *business);
+void businessUpdate(Business *business, FILE *file);
 int businessMain();
 
 // Next the client prototypes
-void clientPrint(Client *clients);
+void clientPrint(Client *clients, FILE *file);
 void clientFind(Client *clients);
 void clientAdd(Client *clients);
 void clientRemove(Client *clients);
 void clientEdit(Client *clients);
+void clientUpdate(Client *clients, FILE *file);
 int clientMain();
 
 // Then the product prototypes
-void productPrint(Product *products);
+void productPrint(Product *products, FILE *file);
 void productFind(Product *products);
 void productAdd(Product *products);
 void productRemove(Product *products);
 void productEdit(Product *products);
+void productUpdate(Product *products, FILE *file);
 int productMain();
 
 #endif // When doing header files, always start with ifndef and end with endif

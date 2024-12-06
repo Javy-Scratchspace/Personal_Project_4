@@ -9,9 +9,8 @@
 #include "Business_Header.h"
 
 // Print what's currently in the txt file for the prouducts
-void productPrint(Product *products) {
+void productPrint(Product *products, FILE *file) {
 
-    FILE *file = fopen("Business_Inputs/Products_Info.txt", "r+");
     char buffer[256];
 
     printf("\nHere is our current available products:\n");
@@ -47,14 +46,21 @@ void productEdit(Product *products) {
 
 }
 
+// Update the txt file with any new information
+void productUpdate(Product *products, FILE *file) {
+    // Input code here
+
+}
+
 // Incorporate all product functions into productMain
 int productMain() {
 
     Product *products = (Product *)malloc(sizeof(Product));
+    FILE *file = fopen("Business_Inputs/Products_Info.txt", "r+");
 
     printf("\nThis program was made to manage product information.\n");
 
-    productPrint(products);
+    productPrint(products, file);
 
     free(products);
 

@@ -9,15 +9,17 @@
 #include "Products.c"
 #include "Business.c"
 
+//TODO: Edit business functions and set template for clientMain and productMain
+
 int main(int argv, char **argc) {
 
     int access = 0;
 
-    printf("\nThis program was made to manage business information and allow for allocation of funds.\n");
+    printf("\nThis program was made to manage business/client/product information.");
 
     while (1) {
-        printf("\nWhat information would you like to access? Type 1 for business, 2 for clientelle, 3 for product, or 4 to quit.");
-        printf("\n\tResponse: ");
+        printf("\n What information would you like to access?\n\t1. business\n\t2. clientelle\n\t3. product\n\t4. quit.");
+        printf("\n Response: ");
         scanf("%d", &access); // Never forget the &
 
         if (access == 1) {

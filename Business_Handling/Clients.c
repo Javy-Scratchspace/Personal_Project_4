@@ -6,9 +6,8 @@
 #include "Business_Header.h"
 
 // Print whatever is in the txt file
-void clientPrint(Client *clients) {
+void clientPrint(Client *clients, FILE *file) {
 
-    FILE *file = fopen("Business_Inputs/Clientelle_Info.txt", "r+");
     char buffer[256];
 
     printf("\nOur current clientelle are:\n"); // Checkpoint (client_print)
@@ -44,14 +43,21 @@ void clientEdit(Client *clients) {
 
 }
 
+// Update the txt file with any new information
+void clientUpdate(Client *clients, FILE *file) {
+    // Input code here
+
+}
+
 // Where all the functions are kept and ran
 int clientMain() {
 
     Client *clients = (Client *)malloc(sizeof(Client));
+    FILE *file = fopen("Business_Inputs/Clientelle_Info.txt", "r+");
 
     printf("\nThis program was made to manage client information.\n");
 
-    clientPrint(clients);
+    clientPrint(clients, file);
 
     free(clients);
 
