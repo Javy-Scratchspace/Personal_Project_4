@@ -9,9 +9,10 @@
 #include "Business_Header.h"
 
 // Print what's currently in the txt file for the prouducts
-void productPrint(Product *products, FILE *file) {
+Product *productPrint(Product *products, char *fileName) {
 
     char buffer[256];
+    FILE *file = fopen(fileName, "r");
 
     printf("\nHere is our current available products:\n");
 
@@ -20,47 +21,54 @@ void productPrint(Product *products, FILE *file) {
     }
 
     fclose(file);
+
+    return products; 
 }
 
 // Find any products
-void productFind(Product *products) {
+Product *productFind(Product *products) {
     // Input code here
 
+    return products; 
 }
 
 // Add new products
-void productAdd(Product *products) {
+Product *productAdd(Product *products) {
     // Input code here
 
+    return products; 
 }
 
 // Remove products from the structure
-void productRemove(Product *products) {
+Product *productRemove(Product *products) {
     // Input code here
 
+    return products; 
 }
 
 // Edit any product information
-void productEdit(Product *products) {
+Product *productEdit(Product *products) {
     // Input code here
 
+    return products; 
 }
 
 // Update the txt file with any new information
-void productUpdate(Product *products, FILE *file) {
+Product *productUpdate(Product *products, char *fileName) {
     // Input code here
 
+    return products; 
 }
 
 // Incorporate all product functions into productMain
 int productMain() {
 
     Product *products = (Product *)malloc(sizeof(Product));
-    FILE *file = fopen("Business_Inputs/Products_Info.txt", "r+");
+    char *fileName = "Business_Inputs/Products_Info.txt";
 
     printf("\nThis program was made to manage product information.\n");
 
-    productPrint(products, file);
+    productPrint(products, fileName);
 
     free(products);
 

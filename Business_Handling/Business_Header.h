@@ -9,8 +9,8 @@ typedef struct Client{
     char name[100];
     char location[1000];
     int age;
-    int payment;
-    struct Client *next;
+    float payment;
+    struct Client *nextClient;
 
 }Client;
 
@@ -19,7 +19,7 @@ typedef struct Product{
     int id;
     char name[100];
     int price;
-    struct Product *next; 
+    struct Product *nextProduct; 
 
 }Product;
 
@@ -27,33 +27,33 @@ typedef struct Business{
 
     int client_count; // Records how many clients there are
     int product_count; // Records how many products we offer
-    int equity;
-    int dues;
+    float equity;
+    float dues;
 
 }Business;
 
 // First the business protoypes
-void businessPrint(Business *business, FILE *file);
-void businessEdit(Business *business);
-void businessUpdate(Business *business, FILE *file);
+Business * businessPrint(Business *business, char *fileName);
+Business * businessEdit(Business *business);
+Business * businessUpdate(Business *business, char *fileName);
 int businessMain();
 
 // Next the client prototypes
-void clientPrint(Client *clients, FILE *file);
-void clientFind(Client *clients);
-void clientAdd(Client *clients);
-void clientRemove(Client *clients);
-void clientEdit(Client *clients);
-void clientUpdate(Client *clients, FILE *file);
+Client * clientPrint(Client *clients, char *fileName);
+Client * clientFind(Client *clients);
+Client * clientAdd(Client *clients);
+Client * clientRemove(Client *clients);
+Client * clientEdit(Client *clients);
+Client * clientUpdate(Client *clients, char *fileName);
 int clientMain();
 
 // Then the product prototypes
-void productPrint(Product *products, FILE *file);
-void productFind(Product *products);
-void productAdd(Product *products);
-void productRemove(Product *products);
-void productEdit(Product *products);
-void productUpdate(Product *products, FILE *file);
+Product * productPrint(Product *products, char *fileName);
+Product * productFind(Product *products);
+Product * productAdd(Product *products);
+Product * productRemove(Product *products);
+Product * productEdit(Product *products);
+Product * productUpdate(Product *products, char *fileName);
 int productMain();
 
 #endif // When doing header files, always start with ifndef and end with endif

@@ -11,7 +11,7 @@
 
 //TODO: Edit business functions and set template for clientMain and productMain
 
-int main(int argv, char **argc) {
+int main() {
 
     int access = 0;
 
@@ -37,7 +37,10 @@ int main(int argv, char **argc) {
         else if (access == 4) {
             break;
         }
-        else {printf("Cannot compute answer, try again.\n");}
+        else {
+            printf("Cannot compute answer, try again.\n");\
+            main();
+        }
     }
 
     printf("\nHave a great day!\n");
