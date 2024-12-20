@@ -6,44 +6,69 @@
 #include <string.h>
 #include "Business_Header.h"
 
+// Used to establish a linear linked structured list. Uses clients struct as "head" move it forward to the next node in the structure (nextClient)
+Client *initializeStruct(Client *clients, int id, char *name, char *location, int age, float payment) {
+
+    Client *tempClient = (Client *)malloc(sizeof(Client));
+    tempClient->id = id; 
+    tempClient->name = name;
+    tempClient->location = location; 
+    tempClient->age = age; 
+    tempClient->payment = payment; 
+    tempClient->nextClient = NULL;
+
+    // the head of the structure is clients
+    if (clients == NULL) { 
+        clients = tempClient; 
+    }
+    else {
+        tempClient->nextClient = clients; 
+        clients = tempClient; 
+    }
+
+    return clients; 
+}
+
 // Print whatever is in the txt file
 Client *clientPrint(Client *clients, char *fileName) {
 
-    char buffer[256];
-    Client *tempClient = (Client *)malloc(sizeof(Client));
     FILE *file = fopen(fileName, "r");
+    char *buffer_ptr; // NOTE: Never set this ptr to NULL, this does not allow for arithmetic processing.
+    char buffer[256]; 
+    char *name; 
+    char *location; 
+    int id; 
+    int age; 
+    float payment; 
 
-    tempClient->nextClient = NULL; 
-
-    printf("\nOur current clientelle are:\n"); // Checkpoint (client_print)
+    printf("\nOur current clientelle are:\n"); // Checkpoint (clientPrint)
 
     while (fgets(buffer, sizeof(buffer), file)) {
-
-        if (clients == NULL) {
-            clients = tempClient;
-        }
-        else {
-            tempClient->nextClient = clients;
-            clients = tempClient;
-        }
     
         if (strstr(buffer, "Client ID: ") != NULL) {
-            clients->id = atoi(strtok(buffer, "Client ID: "));
+            buffer_ptr = buffer + strlen("\tClient ID: "); // Goes to buffer and skips "Client ID: " to get the info you want
+            id = atoi(buffer_ptr);
         }
         else if (strstr(buffer, "Name: ") != NULL) {
-            strcpy(clients->name, strtok(buffer, "Name: "));
+            buffer_ptr = strtok(buffer, ": ");
+            name = strtok(NULL, "\0");
         }
         else if (strstr(buffer, "Location: ") != NULL) {
-            strcpy(clients->location, strtok(buffer, "Location: "));
+            buffer_ptr = strtok(buffer, ": ");
+            location = strtok(NULL, "\0");
         }
         else if (strstr(buffer, "Age: ") != NULL) {
-            clients->age = atoi(strtok(buffer, "Age: "));
+            buffer_ptr = buffer + strlen("\tAge: ");
+            age = atoi(buffer_ptr);
         }
         else if (strstr(buffer, "Payment Due: ") != NULL) {
-            clients->payment = atoi(strtok(buffer, "Payment Due: "));
+            buffer_ptr = buffer + strlen("\tPayment Due: ");
+            payment = atoi(buffer_ptr);
         }
-
-        printf(" Client ID: %d\n\tClient Name: %s\n\tClient Location: %s\n\tClient Age: %d\n\tClient Payment: %.f\n", clients->id, clients->name, clients->location, clients->age, clients->payment);
+        else if (strcmp(buffer, "\n") == 0) {
+            clients = initializeStruct(clients, id, name, location, age, payment);
+            printf("\nClient ID: %d\n\tName: %s %s\n\tPayment Due: %.2f", clients->id, clients->name, clients->payment);
+        }
     }
 
     fclose(file);
@@ -87,14 +112,48 @@ Client *clientUpdate(Client *clients, char *fileName) {
 }
 
 // Where all the functions are kept and ran
-int clientMain() {
+int main() {
 
     Client *clients = NULL;
     char *fileName = "Business_Inputs/Clientelle_Info.txt"; 
+    int access; 
 
     printf("\nThis program was made to manage client information.\n");
 
-    clientPrint(clients, fileName);
+    while (1) {
+
+        printf("\n What would you like to do?");
+        printf("\n\t1. print\n\t2. add\n\t3. remove\n\t4. edit\n\t5. update\n\t6. quit\n Response: ");
+        scanf("%d", &access);
+
+        if (access == 1) {
+            printf("\n");
+            clientPrint(clients, fileName);
+        }
+        else if (access == 2) {
+            printf("\n");
+            clientFind(clients);
+        }
+        else if (access == 3) {
+            printf("\n");
+            clientRemove(clients);
+        }
+        else if (access == 4) {
+            printf("\n");
+            clientEdit(clients);
+        }
+        else if (access == 5) {
+            printf("\n");
+            clientUpdate(clients, fileName);
+        }
+        else if (access == 6) {
+            break; 
+        }
+        else {
+            printf("Cannot compute answer, try again.\n");
+            main();
+        }
+    }
 
     free(clients);
 

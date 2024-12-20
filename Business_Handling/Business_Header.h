@@ -6,8 +6,8 @@
 typedef struct Client{
 
     int id;
-    char name[100];
-    char location[1000];
+    char *name; 
+    char *location;
     int age;
     float payment;
     struct Client *nextClient;
