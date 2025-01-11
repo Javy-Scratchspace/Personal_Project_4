@@ -5,29 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "Business_Header.h"
-
-// Used to establish a linear linked structured list. Uses clients struct as "head" move it forward to the next node in the structure (nextClient)
-Client *initializeStruct(Client *clients, int id, char *name, char *location, int age, float payment) {
-
-    Client *tempClient = (Client *)malloc(sizeof(Client));
-    tempClient->id = id; 
-    tempClient->name = name;
-    tempClient->location = location; 
-    tempClient->age = age; 
-    tempClient->payment = payment; 
-    tempClient->nextClient = NULL;
-
-    // the head of the structure is clients
-    if (clients == NULL) { 
-        clients = tempClient; 
-    }
-    else {
-        tempClient->nextClient = clients; 
-        clients = tempClient; 
-    }
-
-    return clients; 
-}
+#include "stringHandling.c"
+#include "structHandling.c"
 
 // Print whatever is in the txt file
 Client *clientPrint(Client *clients, char *fileName) {
@@ -46,32 +25,37 @@ Client *clientPrint(Client *clients, char *fileName) {
     while (fgets(buffer, sizeof(buffer), file)) {
     
         if (strstr(buffer, "Client ID: ") != NULL) {
-            buffer_ptr = buffer + strlen("\tClient ID: "); // Goes to buffer and skips "Client ID: " to get the info you want
+            char word[100] = "Client ID: ";
+            buffer_ptr = removeStr(buffer, word);
             id = atoi(buffer_ptr);
         }
         else if (strstr(buffer, "Name: ") != NULL) {
-            buffer_ptr = strtok(buffer, ": ");
-            name = strtok(NULL, "\0");
+            char word[100] = "\tName: ";
+            name = removeStr(buffer, word);
         }
         else if (strstr(buffer, "Location: ") != NULL) {
-            buffer_ptr = strtok(buffer, ": ");
-            location = strtok(NULL, "\0");
+            char word[100] = "\tLocation: ";
+            location = removeStr(buffer, word);
         }
         else if (strstr(buffer, "Age: ") != NULL) {
-            buffer_ptr = buffer + strlen("\tAge: ");
+            char word[100] = "Age: ";
+            buffer_ptr = removeStr(buffer, word);
             age = atoi(buffer_ptr);
         }
         else if (strstr(buffer, "Payment Due: ") != NULL) {
-            buffer_ptr = buffer + strlen("\tPayment Due: ");
+            char word[100] = "Payment Due: ";
+            buffer_ptr = removeStr(buffer, word);
             payment = atoi(buffer_ptr);
         }
         else if (strcmp(buffer, "\n") == 0) {
-            clients = initializeStruct(clients, id, name, location, age, payment);
-            printf("\nClient ID: %d\n\tName: %s %s\n\tPayment Due: %.2f", clients->id, clients->name, clients->payment);
+            clients = initializeClientStruct(clients, id, name, location, age, payment);
+            printf("Client ID: %d\n\tName: %s\n\tLocation: %s\n\tAge: %d\n\tPayment Due: %.2f\n", clients->id, clients->name, clients->location, clients->age, clients->payment);
         }
     }
 
     fclose(file);
+
+    free(buffer_ptr);
 
     return clients;
 }

@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/javya/OneDrive - University of Central Florida/Desktop/Personal/CODING_FOLDER/Personal_Project_4/Array_Accessing",
-      "program": "c:/Users/javya/OneDrive - University of Central Florida/Desktop/Personal/CODING_FOLDER/Personal_Project_4/Array_Accessing/build/Debug/outDebug",
+      "cwd": "c:/Users/javya/OneDrive - University of Central Florida/Desktop/Personal/CODING_FOLDER/Personal_Project_4/Business_Handling",
+      "program": "c:/Users/javya/OneDrive - University of Central Florida/Desktop/Personal/CODING_FOLDER/Personal_Project_4/Business_Handling/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

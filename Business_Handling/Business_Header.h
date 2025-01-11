@@ -17,7 +17,7 @@ typedef struct Client{
 typedef struct Product{
 
     int id;
-    char name[100];
+    char *name;
     int price;
     struct Product *nextProduct; 
 
@@ -55,5 +55,10 @@ Product * productRemove(Product *products);
 Product * productEdit(Product *products);
 Product * productUpdate(Product *products, char *fileName);
 int productMain();
+
+// Lastly the functions that help me manage any issues
+char *removeStr(char string[100], char removeString[100]);
+Client *initializeClientStruct(Client *clients, int id, char *name, char *location, int age, float payment);
+Product *initializeProductStruct(Product *products, int id, char *name, int price);
 
 #endif // When doing header files, always start with ifndef and end with endif

@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Business_Header.h"
+#include "stringHandling.c"
 
 // Print what's currently in the txt file for the prouducts
 Product *productPrint(Product *products, char *fileName) {
