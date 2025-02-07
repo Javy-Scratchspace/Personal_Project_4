@@ -9,80 +9,89 @@
 #include "structHandling.c"
 
 
-Client *freeClient(Client *clients) {
+int freeClient(Client *clients) {
 
-    Client *tempClient; 
-
-    if (clients->nextClient->nextClient != NULL) {
-        clients = freeClient(clients->nextClient); 
-    }
-    else {
-        free(clients->nextClient);
-        clients->nextClient = NULL; 
-        clients = freeClient(clients->nextClient);
+    if (clients == NULL) {
+        return 0; 
     }
 
+    freeClient(clients->nextClient);
     free(clients);
-    clients = NULL;
 
-    return clients;
+    return 0;
+}
+
+// Print client structs
+void clientPrint(Client *clients) {
+    
+    int count = 0;
+    
+    if (clients == NULL) {
+        printf("No more clients\n");
+        return;
+    }
+
+    printf("Client ID: %d\n", clients->id);
+    printf("\tName: %s %s\n", clients->firstName, clients->lastName);
+    printf("\tLocation: %s\n", clients->location);
+    printf("\tAge: %d\n", clients->age);
+    printf("\tPayment Due: %.2f\n", clients->payment);
+    printf("---------------------\n");
+
+    // Recursive call and count the number of clients printed
+    clientPrint(clients->nextClient);
 }
 
 // Print whatever is in the txt file
-int clientPrint(Client *clients, char *fileName) {
+Client *getClient(Client *clients, char *fileName) {
 
     FILE *file = fopen(fileName, "r");
-    char *buffer_ptr; // NOTE: Never set this ptr to NULL, this does not allow for arithmetic processing.
-    char buffer[256]; 
-    char *name; 
-    char *location; 
+    char buffer[100];
+    char firstName[100];
+    char lastName[100];
+    char location[100]; 
     int id; 
     int age; 
     float payment; 
+    int lineCount = 0; 
+    int clientCount = 0; 
 
-    printf("\nOur current clientelle are:\n"); // Checkpoint (clientPrint)
+    if (file == NULL) {
+        printf("Cannot detect file, please try again");
+        return NULL;
+    }
+    while (fscanf(file, "%s", buffer) != EOF) {
 
-    while (fgets(buffer, sizeof(buffer), file)) {
-    
-        if (strstr(buffer, "Client ID: ") != NULL) {
-            char word[100] = "Client ID: ";
-            buffer_ptr = removeStr(buffer, word);
-            id = atoi(buffer_ptr);
+        printf("%s\n", buffer);
+
+        if (lineCount == 0) {
+            id = atoi(buffer);
         }
-        else if (strstr(buffer, "Name: ") != NULL) {
-            char word[100] = "Name: ";
-            name = removeStr(buffer, word);
+        else if (lineCount == 1) {
+            strcpy(firstName, buffer);
         }
-        else if (strstr(buffer, "Location: ") != NULL) {
-            char word[100] = "Location: ";
-            location = removeStr(buffer, word);
+        else if (lineCount == 2) {
+            strcpy(lastName, buffer);
         }
-        else if (strstr(buffer, "Age: ") != NULL) {
-            char word[100] = "Age: ";
-            buffer_ptr = removeStr(buffer, word);
-            age = atoi(buffer_ptr);
+        else if (lineCount == 3) {
+            strcpy(location, buffer);
         }
-        else if (strstr(buffer, "Payment Due: ") != NULL) {
-            char word[100] = "Payment Due: ";
-            buffer_ptr = removeStr(buffer, word);
-            payment = atoi(buffer_ptr);
-            printf("HEY YALL");
+        else if (lineCount == 4) {
+            age = atoi(buffer);
         }
-        else if (strcmp(buffer, "\n") == 0) {
-            printf("Hello World");
-            clients = initializeClientStruct(clients, id, name, location, age, payment);
-            printf("Hello World 3");
-            //printf("Client ID: %d\n\tName: %s\n\tLocation: %s\n\tAge: %d\n\tPayment Due: %.2f\n", clients->id, clients->name, clients->location, clients->age, clients->payment);
+        else if (lineCount == 5) {
+            payment = atoi(buffer);
+            clients = initializeClientStruct(clients, id, firstName, lastName, location, age, payment);
+            lineCount = -1;
+            clientCount+=1;
         }
+        lineCount++;
     }
 
+    printf("Clients: %d", clientCount);
+
     fclose(file);
-
-    free(buffer_ptr);
-    free(name);
-    free(location);
-
-    return 0;
+    return clients;
 }
 
 // Find clients in your structure
@@ -126,6 +135,9 @@ int main() {
     Client *clients = NULL;
     char *fileName = "Business_Inputs/Clientelle_Info.txt"; 
     int access; 
+    int clientCount = 0;
+
+    clients = getClient(clients, fileName);
 
     printf("\nThis program was made to manage client information.\n");
 
@@ -137,7 +149,8 @@ int main() {
 
         if (access == 1) {
             printf("\n");
-            clientPrint(clients, fileName);
+            printf("\nOur current clientelle are:\n"); // Checkpoint (clientPrint)
+            clientPrint(clients);
         }
         else if (access == 2) {
             printf("\n");
@@ -164,7 +177,7 @@ int main() {
         }
     }
 
-    clients = freeClient(clients);
+    freeClient(clients);
 
     return 0;
 }

@@ -6,8 +6,9 @@
 typedef struct Client{
 
     int id;
-    char *name; 
-    char *location;
+    char firstName[100];
+    char lastName[100]; 
+    char location[100];
     int age;
     float payment;
     struct Client *nextClient;
@@ -39,7 +40,8 @@ Business * businessUpdate(Business *business, char *fileName);
 int businessMain();
 
 // Next the client prototypes
-Client * clientPrint(Client *clients, char *fileName);
+Client * getClient(Client *clients, char *fileName);
+void clientPrint(Client *clients);
 Client * clientFind(Client *clients);
 Client * clientAdd(Client *clients);
 Client * clientRemove(Client *clients);
@@ -58,7 +60,7 @@ int productMain();
 
 // Lastly the functions that help me manage any issues
 char *removeStr(char string[100], char removeString[100]);
-Client *initializeClientStruct(Client *clients, int id, char *name, char *location, int age, float payment);
+Client *initializeClientStruct(Client *clients, int id, char *firstName, char *lastName, char *location, int age, float payment);
 Product *initializeProductStruct(Product *products, int id, char *name, int price);
 
 #endif // When doing header files, always start with ifndef and end with endif

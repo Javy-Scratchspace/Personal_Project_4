@@ -33,14 +33,16 @@ node *addEndNode(node *head, int data) {
     return head;
 }
 
-Client *addClientInfo(int id, char *name, char *location, int age, float payment) {
+// Add clientelle 
+Client *addClientInfo(int id, char *firstName, char* lastName, char *location, int age, float payment) {
     
-    Client *clients = (Client *)malloc(sizeof(Client));
+    Client *clients = malloc(sizeof(Client));
 
     clients->id = id; 
-    clients->name = name;
-    clients->location = location; 
-    clients->age = age; 
+    strcpy(clients->firstName, firstName);
+    strcpy(clients->lastName, lastName);
+    strcpy(clients->location, location); 
+    clients->age = age;
     clients->payment = payment;
     clients->nextClient = NULL; 
     
@@ -48,26 +50,26 @@ Client *addClientInfo(int id, char *name, char *location, int age, float payment
 }
 
 // Used to establish a linear linked structured list. Uses clients struct as "head" move it forward to the next node in the structure (nextClient)
-Client *initializeClientStruct(Client *clients, int id, char *name, char *location, int age, float payment) {
+Client *initializeClientStruct(Client *clients, int id, char *firstName, char* lastName, char *location, int age, float payment) {
 
-    Client *tClient;
-    Client *tempClient = addClientInfo(id, name, location, age, payment);
+    Client *current; 
 
-    // the head of the structure is clients
-    if (clients == NULL) { 
-        clients = tempClient; 
+    if (clients == NULL) {
+        clients = addClientInfo(id, firstName, lastName, location, age, payment);
     }
     else {
-        tClient = clients;
-        while (tClient->nextClient != NULL) {
-            tClient = tClient->nextClient; 
+        current = clients;
+        while (current != NULL) {
+            current = current->nextClient; 
         }
-        tClient->nextClient = tempClient;
-    } 
+        current = addClientInfo(id, firstName, lastName, location, age, payment);
+        clients->nextClient = current;
+    }
 
     return clients; 
 }
 
+// Add product info
 Product *addProductInfo(int id, char *name, int price) {
 
     Product *products = (Product *)malloc(sizeof(Product));
@@ -80,14 +82,14 @@ Product *addProductInfo(int id, char *name, int price) {
     return products; 
 }
 
+// Create a singly linked that only goes one way and updates accordingly
 Product *initializeProductStruct(Product *products, int id, char *name, int price) {
 
     Product *tProduct;
     Product *tempProduct = addProductInfo(id, name, price);
 
-    // the head of the structure is clients
-    if (products == NULL) { 
-        products = tempProduct; 
+    if (products == NULL) {
+        products = tempProduct;
     }
     else {
         tProduct = products;
@@ -95,7 +97,7 @@ Product *initializeProductStruct(Product *products, int id, char *name, int pric
             tProduct = tProduct->nextProduct; 
         }
         tProduct->nextProduct = tempProduct;
-    } 
+    }
 
     return products; 
 }

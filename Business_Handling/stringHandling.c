@@ -9,7 +9,7 @@
 
 char *removeStr(char *string, char *removeString) {
 
-    char *updatedString = (char *)malloc(sizeof(char));
+    char *updatedString = malloc(sizeof(char) * 100);
     int i, j, fsl, ssl, temp, chk = 0;
     
     /* Using the strlen function to calculate length of the given string. */
@@ -35,13 +35,16 @@ char *removeStr(char *string, char *removeString) {
 
     strcpy(updatedString, string);
 
+    free(string);
+
     return updatedString;
 }
 
 // int main() {
 
-//     char string[100] = "Hello World, How are yall doing", removeString[100] = "World";
-//     char *updatedString = (char *)malloc(sizeof(char));
+//     char string[100] = "Hello World";
+//     char removeString[100] = "World";
+//     char *updatedString;
 
 //     updatedString = removeStr(string, removeString);
 
